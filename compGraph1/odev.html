@@ -1,0 +1,55 @@
+<html>
+<body>
+   <canvas id="glcanvas" width="512" height="512"></canvas>
+  <strong><br>>Select the items from the menu for ROTATION and TRANSLATION. Use the '+' and '-' keys on your keyboard for SCALING. </br><strong>
+
+  <dd>
+	<select id="mymenu" size="5">
+		<option value="0">Rotation -clockwise </option>
+		<option value="1">Rotation clockwise</option>
+		<option value="2">Reposition x</option>
+		<option value="3">Reposition -x</option>
+		<option value="4">Reposition y</option>
+		<option value="5">Reposition -y</option>
+	</select></dd>
+	<strong><br>>Select the color. </br><dd><strong>
+		<div>
+		<label style="color:red">R:</label><input id="redSlider" type="range"
+		min="0" max="1" step="0.1" value="0" />1 </div>
+		<div>
+		<label style="color:green">G:</label><input id="greenSlider" type="range"
+		min="0" max="1" step="0.1" value="0" />1 </div>
+		<div>
+		<label style="color:blue">B:</label><input id="blueSlider" type="range"
+		min="0" max="1" step="0.1" value="0" />1 </div></dd>
+		
+</body>
+<script id="vertex-shader" type="x-shader/x-vertex">
+   attribute vec4 vPosition; //atrributes are different for each vertex of a primitive
+   uniform float theta; // uniform variables for rotation and it remains the same for all vertices displayed with that gl.drawArrays call
+   uniform float translationX,translationY; //uniform variables for translation
+   uniform float scale; //uniform variables for scaling
+   uniform float dotScale;
+   
+   void main(){ 
+		gl_Position.x = ((cos(theta) * vPosition.x - sin(theta) * vPosition.y) + translationX) * scale;
+		gl_Position.y = ((sin(theta) * vPosition.x + cos(theta) * vPosition.y) + translationY) * scale;
+		gl_Position.z = 0.0;
+		gl_Position.w = 1.0;
+   }
+
+</script>
+<script id="fragment-shader" type="x-shader/x-fragment"> 
+   precision mediump float; 
+  uniform float redValue,blueValue,greenValue;
+   void main() {
+      gl_FragColor = vec4(redValue,greenValue, blueValue, 1.0);
+   }
+</script>
+
+<script src="initShaders.js"></script>
+<script src="MV.js"></script>
+<script src="odev.js"></script>
+<script src="webgl-utils.js"></script>
+
+</html>
